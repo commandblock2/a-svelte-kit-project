@@ -12,6 +12,8 @@ datasource db {
 
 model User {
   id           Int           @id @default(autoincrement())
+  name         String
+  phoneNumber  String
   email        String        @unique
   createdAt    DateTime      @default(now())
   password     String
@@ -25,12 +27,27 @@ enum BallQuality {
   C
 }
 
+model BallPrice {
+  id          Int         @id @default(autoincrement())
+  ballQuality BallQuality
+  price       Int
+  createdAt   DateTime    @default(now())
+}
+
+model BallQualityCounts {
+  id          Int         @id @default(autoincrement())
+  machine     Machine     @relation(fields: [machineId], references: [id])
+  machineId   Int
+  ballQuality BallQuality
+  count       Int         @default(0)
+}
+
 model Machine {
-  id           Int           @id @default(autoincrement())
-  location     String
-  availability Boolean       @default(true)
-  balls        BallQuality[] @default([])
-  transactions Transaction[]
+  id                Int                 @id @default(autoincrement())
+  location          String
+  availability      Boolean             @default(true)
+  ballQualityCounts BallQualityCounts[]
+  transactions      Transaction[]
 }
 
 enum TranscationType {
