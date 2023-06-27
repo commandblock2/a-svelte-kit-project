@@ -6,40 +6,50 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgres"
   url      = env("DATABASE_URL")
 }
 
 model User {
   id           Int           @id @default(autoincrement())
   email        String        @unique
+  createdAt    DateTime      @default(now())
   password     String
   credits      Int           @default(0)
   transactions Transaction[]
+}
+
+enum BallQuality {
+  A
+  B
+  C
 }
 
 model Machine {
   id           Int           @id @default(autoincrement())
   location     String
   availability Boolean       @default(true)
-  ballsA       Int           @default(0)
-  ballsB       Int           @default(0)
-  ballsC       Int           @default(0)
+  balls        BallQuality[] @default([])
   transactions Transaction[]
 }
 
-model Transaction {
-  id        Int      @id @default(autoincrement())
-  quantity  Int
-  user      User     @relation(fields: [userId], references: [id])
-  userId    Int
-  machine   Machine  @relation(fields: [machineId], references: [id])
-  machineId Int
-  category  String
+enum TranscationType {
+  BUY
+  SELL
 }
 
-model Payment {
-  id            Int         @id @default(autoincrement())
-  amount        Int
-  method        String
+model Transaction {
+  id          Int             @id @default(autoincrement())
+  ballQuality Int
+  user        User            @relation(fields: [userId], references: [id])
+  userId      Int
+  machine     Machine         @relation(fields: [machineId], references: [id])
+  machineId   Int
+  type        TranscationType
 }
+
+// model Payment {
+//   id     Int    @id @default(autoincrement())
+//   amount Int
+//   method String
+// }
