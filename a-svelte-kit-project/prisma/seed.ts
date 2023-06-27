@@ -1,29 +1,34 @@
 // prisma/seed.ts
 
-import { PrismaClient } from '@prisma/client'
-import userData from "../src/lib/data.json" assert { type: "json" }
+import { BallQuality, PrismaClient } from '@prisma/client'
+import testData from "../src/lib/data.json" assert { type: "json" }
 
 const prisma = new PrismaClient()
 
 async function main() {
     console.log(`Start seeding ...`)
 
-    // for (const p of userData) {
-    //     const user = await prisma.user.create({
-    //         data: {
-    //             name: p.author.name,
-    //             email: p.author.email,
-    //             posts: {
-    //                 create: {
-    //                     title: p.title,
-    //                     content: p.content,
-    //                     published: p.published,
-    //                 },
-    //             },
-    //         }
-    //     })
-    //     console.log(`Created user with id: ${user.id}`)
-    // }
+    for (const userData of testData.users) {
+        const user = await prisma.user.create({
+            data: {
+                email: userData.email,
+                password: userData.password,
+                phoneNumber: userData['phone-number'],
+                name: userData.name
+            }
+        })   
+    }
+
+    for (const ballPriceData of testData['ball-price']) {
+        const ballPrice = await prisma.ballPrice.create({
+            data: {
+                ballQuality: ballPriceData.ballQuality as BallQuality,
+                price: ballPriceData.price
+            }
+        })
+    }
+
+
     console.log(`Seeding finished.`)
 }
 
