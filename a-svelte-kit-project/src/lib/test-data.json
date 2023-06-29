@@ -1,0 +1,72 @@
+{
+    "users": [
+        {
+            "email": "root@under.test",
+            "password": "password-hash-placeholder",
+            "phone-number": "000000000",
+            "name": "root"
+        },
+        {
+            "email": "user@under.test",
+            "password": "password-hash-placeholder",
+            "phone-number": "000000000",
+            "name": "user"
+        }
+    ],
+    "ball-price": [
+        {
+            "ballQuality": "A",
+            "price": 30
+        },
+        {
+            "ballQuality": "B",
+            "price": 20
+        },
+        {
+            "ballQuality": "C",
+            "price": 10
+        }
+    ],
+    "places": [
+        {
+            "name": "Beijing",
+            "longitude": 116.40,
+            "latitude": 39.90
+        },
+        {
+            "name": "Somewhere That doesn't exist",
+            "longitude": -1,
+            "latitude": -1
+        }
+    ],
+    "machines": [
+        {
+            "precise-longitude": 116.487245,
+            "precise-latitude": 39.879702,
+            "balls": {
+                "A": 10,
+                "B": 20,
+                "C": 40
+            }
+        },
+        {
+            "precise-longitude": 116.587245,
+            "precise-latitude": 39.979702,
+            "balls": {
+                "A": 0,
+                "B": 30,
+                "C": 10
+            }
+        }
+    ],
+    "transactions": [
+        {
+            "balls": {
+                "A": 0,
+                "B": 3,
+                "C": 0
+            },
+            "type": "ACQUIRE"
+        }
+    ]
+}
