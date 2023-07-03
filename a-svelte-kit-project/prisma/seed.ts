@@ -47,10 +47,13 @@ async function main() {
                 location: { connect: { id: location!.id } },
                 ballCountByQuality: {
                     createMany: {
-                        data: Object.entries(machineData.balls).map(([quality, count]) => ({
-                            ballQuality: quality as BallQuality,
-                            count: count,
-                        }))
+                        data:
+                            Object
+                                .entries(machineData.balls)
+                                .map(([quality, count]) => ({
+                                    ballQuality: quality as BallQuality,
+                                    count: count,
+                                }))
                     }
                 }
             }
@@ -65,10 +68,13 @@ async function main() {
             data: {
                 ballCountByQuality: {
                     createMany: {
-                        data: Object.entries(transactionData.balls).map(([quality, count]) => ({
-                            ballQuality: quality as BallQuality,
-                            count: count,
-                        }))
+                        data:
+                            Object
+                                .entries(transactionData.balls)
+                                .map(([quality, count]) => ({
+                                    ballQuality: quality as BallQuality,
+                                    count: count,
+                                }))
                     }
                 },
                 user: { connect: { id: user?.id } },
