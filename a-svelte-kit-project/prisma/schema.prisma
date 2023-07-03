@@ -19,6 +19,16 @@ model User {
   password     String
   credits      Int           @default(0)
   transactions Transaction[]
+  sessions      Session[]
+}
+
+model Session {
+  id        Int      @id @default(autoincrement())
+  sessionId String   @unique
+  userId    Int
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 enum BallQuality {
@@ -55,7 +65,7 @@ model Machine {
 
 model BallCountByQuality {
   id            Int          @id @default(autoincrement())
-  machine       Machine?      @relation(fields: [machineId], references: [id])
+  machine       Machine?     @relation(fields: [machineId], references: [id])
   machineId     Int?
   ballQuality   BallQuality
   count         Int          @default(0)
