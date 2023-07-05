@@ -66,5 +66,43 @@ export const actions = {
                     };
             }
         }
+    },
+
+    signin: async ({ cookies, request }) => {
+        const data = await request.formData();
+        const email = data.get('email') as string;
+        const password = data.get('password') as string;
+
+        const user = await prisma.user.findFirst({
+            where: {
+                email: email
+            }
+        });
+
+        if (!user || await hashPassword(password) !== password)
+            return { status: 401, body: { error: 'incorrect password or username' } }
+
+        const session = await prisma.session.create({
+            data: {
+                user: { connect: { id: user?.id } },
+                expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // expires after 1d
+                sessionId: crypto.randomUUID()
+            }
+        })
+
+        cookies.set('sessionid', session.sessionId);
+
+        return { success: true };
+    },
+    
+    signout: async ({ cookies, request }) => {
+        const sessionId = cookies.get('sessionid')
+        prisma.session.delete({
+            where: {
+                sessionId: sessionId
+            }
+        })
+
+        return { success: true }
     }
 } satisfies Actions;
