@@ -19,7 +19,7 @@ export const actions = {
             const email = data.get("email") as string;
 
             if (!isEmail(email))
-                throw Error("Invalid email")
+                throw Error("Invalid email");
 
             // Hash the password
             const hashedPassword = await hashPassword(password);
